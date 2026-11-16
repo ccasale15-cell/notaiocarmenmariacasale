@@ -28,10 +28,38 @@ if (contactForm) {
     document.querySelector('#form-status').textContent = '';
   });
 }
-if (contactForm) contactForm.addEventListener('submit', event => {
+if (contactForm) contactForm.addEventListener('submit', async event => {
   event.preventDefault();
-  // Invio diretto da collegare a un servizio autenticato della casella dello studio.
-  document.querySelector('#form-status').textContent = 'Invio temporaneamente non disponibile. Contatta lo studio telefonicamente.';
+  const status = document.querySelector('#form-status');
+  if (window.location.protocol !== 'https:') {
+    status.textContent = 'Per inviare il messaggio apri il sito tramite una connessione HTTPS sicura.';
+    return;
+  }
+  const fields = new FormData(contactForm);
+  const token = fields.get('cf-turnstile-response');
+  if (!token) {
+    status.textContent = 'Completa la verifica antispam prima di inviare il messaggio.';
+    return;
+  }
+  const button = contactForm.querySelector('button[type="submit"]');
+  const data = Object.fromEntries(['nome', 'cognome', 'email', 'studio', 'oggetto', 'messaggio'].map(key => [key, fields.get(key)]));
+  data.privacy = fields.has('privacy');
+  data.token = token;
+  button.disabled = true;
+  status.textContent = 'Invio in corso...';
+  try {
+    const response = await fetch('https://contatti-studio.ccasale15-113.workers.dev/', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data)
+    });
+    if (!response.ok) throw new Error('Invio non riuscito');
+    contactForm.reset();
+    status.textContent = 'Messaggio inviato. Grazie per averci contattato.';
+  } catch {
+    status.textContent = 'Non è stato possibile inviare il messaggio. Riprova o contatta lo studio telefonicamente.';
+  } finally {
+    if (window.turnstile) window.turnstile.reset();
+    button.disabled = false;
+  }
 });
 
 
@@ -89,3 +117,11 @@ document.querySelectorAll(".map-choice").forEach(choice => {
   hide.addEventListener("click", () => { frame.remove(); hide.remove(); button.hidden = false; button.focus(); });
  });
 });
+
+
+const teamPhotoButton = document.querySelector('.team-photo-button');
+const teamPhotoDialog = document.querySelector('.team-photo-dialog');
+if (teamPhotoButton && teamPhotoDialog) {
+  teamPhotoButton.addEventListener('click', () => teamPhotoDialog.showModal());
+  teamPhotoDialog.querySelector('.team-photo-close').addEventListener('click', () => teamPhotoDialog.close());
+}
