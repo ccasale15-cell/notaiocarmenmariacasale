@@ -133,3 +133,6 @@ body,body *{font-family:Georgia,serif!important}.blog-pagination{justify-content
 
 
 .team-photo-button{padding:0;width:100%;cursor:pointer}
+
+/* La foto del team segue le proporzioni originali, senza spazi nel contenitore. */
+.page-intro + .team-page{padding-top:0}.team-photo{min-height:0;display:block}.team-photo img{width:100%;height:auto;max-height:none}@media(max-width:750px){.team-page{gap:16px}.team-photo{min-height:0}}
