@@ -137,5 +137,5 @@ body,body *{font-family:Georgia,serif!important}.blog-pagination{justify-content
 /* La foto del team segue le proporzioni originali, senza spazi nel contenitore. */
 .page-intro + .team-page{padding-top:24px}.team-photo{min-height:0;display:block}.team-photo img{width:100%;height:auto;max-height:none}@media(max-width:750px){.team-page{gap:16px}.team-photo{min-height:0}}
 
-/* Su laptop la seconda foto di Avellino mostra premio e scrivania per intero. */
-@media (min-width:751px){.location-visual img[src$="avellino-2.jpg"],.studio-gallery-view[data-city="avellino"] .gallery-main img[src$="avellino-2.jpg"]{object-fit:contain;object-position:center;background:#f6f3f8}}
+/* Su laptop il riquadro è riempito, con premio e scrivania nell’inquadratura. */
+@media (min-width:751px){.location-visual img[src$="avellino-2.jpg"],.studio-gallery-view[data-city="avellino"] .gallery-main img[src$="avellino-2.jpg"]{object-fit:cover;object-position:center 65%}}
