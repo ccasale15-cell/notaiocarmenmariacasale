@@ -139,3 +139,6 @@ body,body *{font-family:Georgia,serif!important}.blog-pagination{justify-content
 
 /* Su laptop il riquadro è riempito, con premio e scrivania nell’inquadratura. */
 @media (min-width:751px){.location-visual img[src$="avellino-2.jpg"],.studio-gallery-view[data-city="avellino"] .gallery-main img[src$="avellino-2.jpg"]{object-fit:cover;object-position:center 65%}}
+
+/* Più spazio verticale per le fotografie degli studi sui dispositivi desktop. */
+@media (min-width:751px){.locations .location-visual{height:600px}.studio-page .gallery-main{height:700px}}
